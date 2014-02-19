@@ -1,0 +1,10 @@
+Note: No space between ":" and value
+Note: Space between value and unit
+
+Height:189 cm
+
+Stride length:56 cm
+
+Left stride:1169 ms
+
+Right stride:1130 ms

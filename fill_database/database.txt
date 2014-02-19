@@ -1,0 +1,13 @@
+//Note: file must end in a new line and no numbers should be there in the parameter names
+
+Sl.No	Height	Str_len	Lft_str	Right_str
+1	182	60	2341	1234
+2	145	43	8472	3847
+3	134	76	9264	8473
+4	148	75	9452	1343
+5	183	45	5464	4357
+6	123	64	3463	3477
+7	182	56	1169	1130
+1	182	56	1169	1130
+1	182	56	1169	1130
+1	189	56	1169	1130
