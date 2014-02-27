@@ -1,0 +1,19 @@
+The distribution and version of Linux used for this project is Ubuntu 12.04.
+The Arduino programming software can either be installed through the Ubuntu Software Center or the Terminal.
+ 
+Installing Arduino through the terminal :
+1. $ sudo apt-get install gcc-avr avr-libc openjdk-6-jre
+This helps us compile AVR machine code & Java runtime environment.
+
+2. $ dmesg
+This command indicates the port number to which Arduino should be connected
+
+3. Download Arduino version 1.0.5 for Ubuntu 12.04 and extract it in your local folder.
+$ ./arduino will run the software.
+
+If the Serial Port appears to be grey, then
+$ sudo sh arduino - will make the Serial Port Option visible
+
+4. Select the Board model and Serial Port
+Tools > Board > Arduino UNO
+Tools > Serial Port > /dev/ttyAMC0
