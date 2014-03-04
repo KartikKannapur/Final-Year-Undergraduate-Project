@@ -37,3 +37,11 @@ $ sudo nano /etc/udev/rules.d/51-kinect.rules
  
 Restart your machine and plug the Kinect in again.
 $ glview
+
+Install OpenNI
+===================
+$ cd OpenNI-master/Platform/Linux/CreateRedist
+$ chmod + x ./RedistMaker
+$ sudo ./RedistMaker
+$ cd ../Redist/OpenNI-Bin-Dev-Linux-x86-v1.5.7.10/
+$ sudo ./install.sh
