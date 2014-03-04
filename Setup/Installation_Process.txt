@@ -1,0 +1,9 @@
+Installation Process - Kinect + Ubuntu 12.04
+============================================
+1. Create a new folder and download - Libfreenect -master, OpenNI -master & SensorKinect -unstable from GitHub.
+2. $ sudo apt-get install cmake freeglut3-dev pkg-config build-essential libxmu-dev libxi-dev libusb-1.0-0-dev
+3. $ sudo apt-repository "deb http://archive.canonical.com/precise partner"
+4. Install Java JDK :
+   $ sudo apt-get install sun-java6-jdk
+   $ sudo apt-get install openjdk-7-jdk
+5. $ sudo apt-get install doxygen mono-complete graphviz
