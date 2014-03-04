@@ -7,3 +7,33 @@ Installation Process - Kinect + Ubuntu 12.04
    $ sudo apt-get install sun-java6-jdk
    $ sudo apt-get install openjdk-7-jdk
 5. $ sudo apt-get install doxygen mono-complete graphviz
+
+Install libfreenect
+===================
+In the libfreenect-master directory
+$ mkdir build
+$ cd build
+$ cmake.. 
+  Configuring Done
+  Generating Done
+$ make
+  Build targer cpp view
+$ sudo make install
+$ sudo ldconfig /usr/local/lib64
+$ sudo chmod a+rw /dev/bus/usb/
+$ lsusb | grep Xbox
+
+$ glview
+
+$ lsmod | grep -i gspca
+$ sudo nano /etc/udev/rules.d/51-kinect.rules
+  Add this : 
+  # ATTR{product}=="Xbox NUI Motor"
+  SUBSYSTEM=="usb", ATTR{idVendor}=="045e", ATTR{idProduct}=="02b0", MODE="0666"
+  # ATTR{product}=="Xbox NUI Audio"
+  SUBSYSTEM=="usb", ATTR{idVendor}=="045e", ATTR{idProduct}=="02ad", MODE="0666"
+  # ATTR{product}=="Xbox NUI Camera"
+  SUBSYSTEM=="usb", ATTR{idVendor}=="045e", ATTR{idProduct}=="02ae", MODE="0666"
+ 
+Restart your machine and plug the Kinect in again.
+$ glview
