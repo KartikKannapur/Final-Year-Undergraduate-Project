@@ -1,0 +1,18 @@
+Code Blocks Setup
+=================
+
+1. New project -> Project -> Console Application -> C++ -> Next -> Finish
+2. Code @ main.cpp
+3. Project -> Build Options -> Search Directories -> Add -> Compiler Tab -> usr/include/ni 
+   Project -> Build Options -> Search Directories -> Add -> Linker Tab -> usr/lib
+   Keep Relative path -> No
+   
+   Linker Settings -> Add -> Browse -> usr/lib/libnimCodecs.so
+                                       usr/lib/libnimMockNodes.so
+                                       usr/lib/libnimRecorder.so
+                                       usr/lib/libOpenNI.jni.so
+                                       usr/lib/libOpenNI.so
+                                      
+   Other Linker Options -> -lGL -lGLU -glut
+   
+   DONE.
