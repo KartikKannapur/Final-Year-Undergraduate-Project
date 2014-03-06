@@ -45,3 +45,16 @@ $ chmod + x ./RedistMaker
 $ sudo ./RedistMaker
 $ cd ../Redist/OpenNI-Bin-Dev-Linux-x86-v1.5.7.10/
 $ sudo ./install.sh
+
+Install Sensorkinect
+===================
+$ cd sensorkinect-unstable/Platform/Linux/CreateRedist
+$ chmod + x ./RedistMaker
+$ sudo ./RedistMaker or $ bash RedistMaker
+$ cd ../Redist/Sensor-Bin-Linux-x86-v5.1.2.1
+$ sudo ./install.sh or $ sudo sh install.sh
+
+Install Nite
+===================
+Go into the Nite directory
+$ sudo ./install.sh
