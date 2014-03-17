@@ -8,10 +8,14 @@ void loop(){
   
   int threshold = 200;
 
-  if ((FSR_Heel > threshold) || (FSR_Toe > threshold)){
+  if (FSR_Toe > threshold){
     Serial.print("FSR_Toe: ");
     Serial.println(FSR_Toe);
     
+    delay(250);
+  } 
+  
+  if (FSR_Heel > threshold){
     Serial.print("FSR_Heel: ");
     Serial.println(FSR_Heel);
     
