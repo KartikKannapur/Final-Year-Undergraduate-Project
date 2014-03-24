@@ -1,0 +1,8 @@
+Install the latest version of gtkmm : 
+$ sudo apt-get install libgtkmm-3.0-dev
+
+Code::Blocks
+1. Open Code::Blocks -> New Project -> Empty File
+2. Name your Project and make sure that the  GNU GCC compiler has been selected.
+3. Add the file to an active project -> Yes.
+4. Name the file as main.cpp
