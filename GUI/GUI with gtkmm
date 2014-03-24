@@ -6,3 +6,5 @@ Code::Blocks
 2. Name your Project and make sure that the  GNU GCC compiler has been selected.
 3. Add the file to an active project -> Yes.
 4. Name the file as main.cpp
+
+Reference : http://blog.mpshouse.com/?p=874
