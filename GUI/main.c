@@ -9,6 +9,7 @@
   GtkWidget *entry5;
 
   GtkWidget *vbox;
+  GtkWidget *window;
 
 
 void button_clicked_ok(GtkWidget *widget, gpointer window)
@@ -106,6 +107,39 @@ void EnterPersonDetails(GtkWidget *widget, gpointer window)
   gtk_widget_show(window);
 }
 
+void GetPersonParameters(GtkWidget *widget, gpointer window)
+{
+  GtkWidget *Kinect;
+  GtkWidget *Arduino;
+
+  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_title(GTK_WINDOW(window), "Parameters");
+  gtk_window_set_default_size(GTK_WINDOW(window), 450, 300);
+  gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
+  gtk_container_set_border_width(GTK_CONTAINER(window), 20);
+  gtk_widget_show(window);
+
+  gtk_container_add(GTK_CONTAINER(window), vbox);
+
+  Kinect = gtk_button_new_with_label("Kinect Data");
+  Arduino = gtk_button_new_with_label("Arduino & Sensors");
+
+  gtk_box_pack_start(GTK_BOX(vbox), Kinect, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), Arduino, TRUE, TRUE, 0);
+
+
+}
+
+void AnalyzePersonGait(GtkWidget *widget, gpointer window)
+{
+
+}
+
+void ViewPersonDatabase(GtkWidget *widget, gpointer window)
+{
+
+}
+
 void AboutTheProject(GtkWidget *widget, gpointer window)
 {
   GtkWidget *dialog = gtk_about_dialog_new();
@@ -113,7 +147,7 @@ void AboutTheProject(GtkWidget *widget, gpointer window)
 
 
   gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(dialog),
-      "Amith Sreedhar\n Kartik Kannapur\n Lingaraju E V");
+      "\nGuide : Dr.A.Srinivas \n\n Amith Sreedhar\n Kartik Kannapur\n Lingaraju E V");
 
   gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(dialog),
      "Development of an ATOM based Embedded System for Gait Analysis using a Kinect Camera.");
@@ -123,11 +157,10 @@ void AboutTheProject(GtkWidget *widget, gpointer window)
 
 int main( int argc, char *argv[])
 {
-  GtkWidget *window;
-
   GtkWidget *EnterDetails;
   GtkWidget *GetParameters;
   GtkWidget *AnalyzeGait;
+  GtkWidget *ViewDatabase;
   GtkWidget *AboutProject;
   GtkWidget *Quit;
 
@@ -146,17 +179,29 @@ int main( int argc, char *argv[])
   EnterDetails = gtk_button_new_with_label("Enter Details");
   GetParameters = gtk_button_new_with_label("Get Parameters");
   AnalyzeGait = gtk_button_new_with_label("Analyze Gait");
+  ViewDatabase = gtk_button_new_with_label("View Database");
   AboutProject = gtk_button_new_with_label("About the Project");
   Quit = gtk_button_new_with_label("Quit");
+
 
   gtk_box_pack_start(GTK_BOX(vbox), EnterDetails, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), GetParameters, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), AnalyzeGait, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), ViewDatabase, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), AboutProject, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), Quit, TRUE, TRUE, 0);
 
   g_signal_connect(G_OBJECT(EnterDetails), "clicked",
         G_CALLBACK(EnterPersonDetails), (gpointer) window);
+
+  g_signal_connect(G_OBJECT(GetParameters), "clicked",
+        G_CALLBACK(GetPersonParameters), (gpointer) window);
+
+  g_signal_connect(G_OBJECT(AnalyzeGait), "clicked",
+        G_CALLBACK(AnalyzePersonGait), (gpointer) window);
+
+  g_signal_connect(G_OBJECT(ViewDatabase), "clicked",
+        G_CALLBACK(ViewPersonDatabase), (gpointer) window);
 
   g_signal_connect(G_OBJECT(AboutProject), "clicked",
         G_CALLBACK(AboutTheProject), (gpointer) window);
