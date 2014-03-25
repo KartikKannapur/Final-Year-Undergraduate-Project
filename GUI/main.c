@@ -14,7 +14,7 @@
 
 void button_clicked_ok(GtkWidget *widget, gpointer window)
 {
-    printf("%s",entry4);
+
 
 }
 
@@ -109,34 +109,17 @@ void EnterPersonDetails(GtkWidget *widget, gpointer window)
 
 void GetPersonParameters(GtkWidget *widget, gpointer window)
 {
-  GtkWidget *Kinect;
-  GtkWidget *Arduino;
-
-  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title(GTK_WINDOW(window), "Parameters");
-  gtk_window_set_default_size(GTK_WINDOW(window), 450, 300);
-  gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
-  gtk_container_set_border_width(GTK_CONTAINER(window), 20);
-  gtk_widget_show(window);
-
-  gtk_container_add(GTK_CONTAINER(window), vbox);
-
-  Kinect = gtk_button_new_with_label("Kinect Data");
-  Arduino = gtk_button_new_with_label("Arduino & Sensors");
-
-  gtk_box_pack_start(GTK_BOX(vbox), Kinect, TRUE, TRUE, 0);
-  gtk_box_pack_start(GTK_BOX(vbox), Arduino, TRUE, TRUE, 0);
-
-
+  //Run Arduino & Kinect Code
 }
 
 void AnalyzePersonGait(GtkWidget *widget, gpointer window)
 {
-
+    //SVM
 }
 
 void ViewPersonDatabase(GtkWidget *widget, gpointer window)
 {
+    // Open File from local directory
 
 }
 
