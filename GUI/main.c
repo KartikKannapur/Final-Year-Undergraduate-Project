@@ -11,6 +11,9 @@
   GtkWidget *vbox;
   GtkWidget *window;
 
+  //Open the Database file - View Database
+  FILE *stream;
+
 
 void button_clicked_ok(GtkWidget *widget, gpointer window)
 {
@@ -119,8 +122,15 @@ void AnalyzePersonGait(GtkWidget *widget, gpointer window)
 
 void ViewPersonDatabase(GtkWidget *widget, gpointer window)
 {
-    // Open File from local directory
 
+    if( (stream = fopen( "/home/kartik/Desktop/FinalYearProject/KINECT/Skeleton_NEW/bin/Debug/output.txt", "r" )) == NULL )
+      printf( "The Database has not been opened\n" );
+   else
+      {
+          printf( "The Database has been opened\n" );
+          fclose(stream);
+
+      }
 }
 
 void AboutTheProject(GtkWidget *widget, gpointer window)
