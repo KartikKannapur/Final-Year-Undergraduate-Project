@@ -1,40 +1,61 @@
 #include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
 #include <gtk/gtk.h>
 
   //Global Declaration
+  GtkWidget *entry;
+
   GtkWidget *entry1;
   GtkWidget *entry2;
   GtkWidget *entry3;
   GtkWidget *entry4;
   GtkWidget *entry5;
+  GtkWidget *entry6;
 
-  GtkWidget *vbox;
-  GtkWidget *window;
-
-  //Open the Database file - View Database
-  FILE *stream;
-
-
-void button_clicked_ok(GtkWidget *widget, gpointer window)
-{
-
-
-}
-
-void EnterPersonDetails(GtkWidget *widget, gpointer window)
-{
-
-  GtkWidget *table;
+  GtkWidget *label;
 
   GtkWidget *label1;
   GtkWidget *label2;
   GtkWidget *label3;
   GtkWidget *label4;
   GtkWidget *label5;
+  GtkWidget *label6;
 
-  GtkWidget *button_ok;
+  GtkWidget *vbox;
+  GtkWidget *window;
+  GtkWidget *cancel_button_widget;
+  GtkWidget *ok_button_widget;
 
-  GtkWidget *fixed;
+  GtkWidget *hbox;
+
+  //Open the Database file - View Database
+  FILE *stream;
+
+void cancel_event(GtkWidget *widget, gpointer data)
+{
+    main();
+    gtk_main_quit();
+
+
+}
+
+void save_event(GtkWidget *widget, gpointer data)
+{
+    //Format
+    //const char *text = gtk_entry_get_text(GTK_ENTRY(entry));
+    const char *text1 = gtk_entry_get_text(GTK_ENTRY(entry1));
+    const char *text2 = gtk_entry_get_text(GTK_ENTRY(entry2));
+
+    printf("%s\n", text1);
+    printf("%s\n", text2);
+
+}
+
+void EnterPersonDetails(GtkWidget *widget, gpointer window)
+{
+  GtkWidget *Save;
+  GtkWidget *Cancel;
 
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title(GTK_WINDOW(window), "Enter Details");
@@ -43,72 +64,53 @@ void EnterPersonDetails(GtkWidget *widget, gpointer window)
   gtk_container_set_border_width(GTK_CONTAINER(window), 20);
   gtk_widget_show(window);
 
-  table = gtk_table_new(7,7, FALSE);
-  gtk_container_add(GTK_CONTAINER(window), table);
+  //Format
+  //label = gtk_label_new(" ");
+  label1 = gtk_label_new("First Name :");
+  label2 = gtk_label_new("Last Name :");
+  label3 = gtk_label_new("Age :");
+  label4 = gtk_label_new("Sex :");
+  label5 = gtk_label_new("Weight :");
+  label6 = gtk_label_new("Height :");
 
-  label1 = gtk_label_new("Name");
-  label2 = gtk_label_new("Age");
-  label3 = gtk_label_new("Sex");
-  label4 = gtk_label_new("Height");
-  label5 = gtk_label_new("Weight");
-
-  gtk_table_attach(GTK_TABLE(table), label1, 0, 1, 0, 1,
-      GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 5, 5);
-  gtk_table_attach(GTK_TABLE(table), label2, 0, 1, 1, 2,
-      GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 5, 5);
-  gtk_table_attach(GTK_TABLE(table), label3, 0, 1, 2, 3,
-      GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 5, 5);
-  gtk_table_attach(GTK_TABLE(table), label4, 0, 1, 3, 4,
-      GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 5, 5);
-  gtk_table_attach(GTK_TABLE(table), label5, 0, 1, 4, 5,
-      GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 5, 5);
-
+  //Format
+  //entry = gtk_entry_new();
   entry1 = gtk_entry_new();
   entry2 = gtk_entry_new();
   entry3 = gtk_entry_new();
   entry4 = gtk_entry_new();
   entry5 = gtk_entry_new();
+  entry6 = gtk_entry_new();
+  hbox = gtk_vbox_new(FALSE,2);
 
-  gtk_table_attach(GTK_TABLE(table), entry1, 1, 2, 0, 1,
-      GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 5, 5);
-  gtk_table_attach(GTK_TABLE(table), entry2, 1, 2, 1, 2,
-      GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 5, 5);
-  gtk_table_attach(GTK_TABLE(table), entry3, 1, 2, 2, 3,
-      GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 5, 5);
-  gtk_table_attach(GTK_TABLE(table), entry4, 1, 2, 3, 4,
-      GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 5, 5);
-  gtk_table_attach(GTK_TABLE(table), entry5, 1, 2, 4, 5,
-      GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 5, 5);
+  Save = gtk_button_new_with_label("Save");
+  Cancel = gtk_button_new_with_label("Cancel");
+  g_signal_connect(G_OBJECT(Save), "clicked", G_CALLBACK(save_event),NULL);
+  g_signal_connect(G_OBJECT(Cancel), "clicked", G_CALLBACK(cancel_event),NULL);
 
-  gtk_widget_show(table);
+  //Format
+  //gtk_box_pack_start(GTK_BOX(hbox), entry, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox), label1, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox), entry1, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox), label2, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox), entry2, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox), label3, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox), entry3, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox), label4, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox), entry4, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox), label5, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox), entry5, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox), label6, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox), entry6, FALSE, FALSE, 0);
 
-  gtk_widget_show(label1);
-  gtk_widget_show(label2);
-  gtk_widget_show(label3);
-  gtk_widget_show(label4);
-  gtk_widget_show(label5);
-
-  gtk_widget_show(entry1);
-  gtk_widget_show(entry2);
-  gtk_widget_show(entry3);
-  gtk_widget_show(entry4);
-  gtk_widget_show(entry5);
-
-  fixed = gtk_fixed_new();
-
-  button_ok = gtk_button_new_with_label("OK");
-  gtk_widget_set_size_request(button_ok, 80, 30 );
-  gtk_fixed_put(GTK_FIXED(fixed), button_ok, 50, 50);
-
-  gtk_table_attach(GTK_TABLE(table), button_ok, 0, 1, 5, 6,
-      GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 5, 5);
+  gtk_box_pack_start(GTK_BOX(hbox), Save, FALSE, FALSE, 5);
+  gtk_box_pack_start(GTK_BOX(hbox), Cancel, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(window), hbox);
+  gtk_widget_show_all(window);
 
 
-  g_signal_connect(G_OBJECT(button_ok), "clicked",
-        G_CALLBACK(button_clicked_ok), (gpointer) window);
-
-  gtk_widget_show(window);
 }
+
 
 void GetPersonParameters(GtkWidget *widget, gpointer window)
 {
