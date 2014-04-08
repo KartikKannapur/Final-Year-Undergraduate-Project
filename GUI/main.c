@@ -52,13 +52,19 @@ void save_event(GtkWidget *widget, gpointer data)
     const char *text5 = gtk_entry_get_text(GTK_ENTRY(entry5));
     const char *text6 = gtk_entry_get_text(GTK_ENTRY(entry6));
 
+    float text_weight = atof(text5);
+    float text_height = atof(text6);
+    float bmi = (text_weight/(text_height*text_height));
 
     printf("First Name: %s\n", text1);
     printf("Last Name: %s\n", text2);
     printf("Age: %s\n", text3);
     printf("Sex: %s\n", text4);
     printf("Weight (in kg):%s\n", text5);
-    printf("Height (in cm): %s\n", text6);
+    printf("Height (in m): %s\n", text6);
+    printf("Body Mass Index (BMI): %f\n\n",bmi);
+
+
 }
 
 void EnterPersonDetails(GtkWidget *widget, gpointer window)
@@ -80,7 +86,7 @@ void EnterPersonDetails(GtkWidget *widget, gpointer window)
   label3 = gtk_label_new("Age :");
   label4 = gtk_label_new("Sex :");
   label5 = gtk_label_new("Weight (in kg):");
-  label6 = gtk_label_new("Height (in cm):");
+  label6 = gtk_label_new("Height (in m):");
 
   //Format
   //entry = gtk_entry_new();
@@ -139,7 +145,6 @@ void SkeletonPersonTracking(GtkWidget *widget, gpointer window)
 
     system("gnome-terminal --working-directory=/home/kartik/Desktop/FinalYearProject/KINECT/OpenNI-master/Platform/Linux/Bin/x86-Release/ && ./Sample-NiUserTracker");
     //Run ./Sample-NiUserTracker
-
 }
 
 
@@ -147,10 +152,10 @@ void ViewPersonDatabase(GtkWidget *widget, gpointer window)
 {
 
     if( (stream = fopen( "/home/kartik/Desktop/FinalYearProject/KINECT/Skeleton_NEW/bin/Debug/output.txt", "r" )) == NULL )
-      printf( "The Database has not been opened\n" );
+      printf( "The Database has not been opened\n\n" );
    else
       {
-          printf( "The Database has been opened\n" );
+          printf( "The Database has been opened\n\n" );
           system("gedit /home/kartik/Desktop/FinalYearProject/KINECT/Skeleton_NEW/bin/Debug/output.txt");
           fclose(stream);
 
