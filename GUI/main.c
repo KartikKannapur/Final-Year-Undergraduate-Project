@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <gtk/gtk.h>
+#include <unistd.h>
 
   //Global Declaration
 
@@ -130,6 +131,18 @@ void AnalyzePersonGait(GtkWidget *widget, gpointer window)
     //SVM
 }
 
+//OpenNI - User Tracker Code
+void SkeletonPersonTracking(GtkWidget *widget, gpointer window)
+{
+    const char *path = "/home/kartik/Desktop/FinalYearProject/KINECT/OpenNI-master/Platform/Linux/Bin/x86-Release/Sample-NiUserTracker" ;
+    const char *command = "./Sample-NiUserTracker" ;
+
+    system("gnome-terminal --working-directory=/home/kartik/Desktop/FinalYearProject/KINECT/OpenNI-master/Platform/Linux/Bin/x86-Release/ && ./Sample-NiUserTracker");
+    //Run ./Sample-NiUserTracker
+
+}
+
+
 void ViewPersonDatabase(GtkWidget *widget, gpointer window)
 {
 
@@ -138,6 +151,7 @@ void ViewPersonDatabase(GtkWidget *widget, gpointer window)
    else
       {
           printf( "The Database has been opened\n" );
+          system("gedit /home/kartik/Desktop/FinalYearProject/KINECT/Skeleton_NEW/bin/Debug/output.txt");
           fclose(stream);
 
       }
@@ -158,11 +172,13 @@ void AboutTheProject(GtkWidget *widget, gpointer window)
   gtk_widget_destroy(dialog);
 }
 
+//Main
 int main( int argc, char *argv[])
 {
   GtkWidget *EnterDetails;
   GtkWidget *GetParameters;
   GtkWidget *AnalyzeGait;
+  GtkWidget *SkeletonTracking;
   GtkWidget *ViewDatabase;
   GtkWidget *AboutProject;
   GtkWidget *Quit;
@@ -171,7 +187,7 @@ int main( int argc, char *argv[])
 
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title(GTK_WINDOW(window), "Gait Analysis");
-  gtk_window_set_default_size(GTK_WINDOW(window), 450, 300);
+  gtk_window_set_default_size(GTK_WINDOW(window), 450, 400);
   gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
   gtk_container_set_border_width(GTK_CONTAINER(window), 5);
   gtk_widget_show(window);
@@ -182,6 +198,7 @@ int main( int argc, char *argv[])
   EnterDetails = gtk_button_new_with_label("Enter Details");
   GetParameters = gtk_button_new_with_label("Get Parameters");
   AnalyzeGait = gtk_button_new_with_label("Analyze Gait");
+  SkeletonTracking = gtk_button_new_with_label("Skeleton Tracking");
   ViewDatabase = gtk_button_new_with_label("View Database");
   AboutProject = gtk_button_new_with_label("About the Project");
   Quit = gtk_button_new_with_label("Quit");
@@ -190,6 +207,7 @@ int main( int argc, char *argv[])
   gtk_box_pack_start(GTK_BOX(vbox), EnterDetails, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), GetParameters, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), AnalyzeGait, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), SkeletonTracking, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), ViewDatabase, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), AboutProject, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), Quit, TRUE, TRUE, 0);
@@ -202,6 +220,9 @@ int main( int argc, char *argv[])
 
   g_signal_connect(G_OBJECT(AnalyzeGait), "clicked",
         G_CALLBACK(AnalyzePersonGait), (gpointer) window);
+
+  g_signal_connect(G_OBJECT(SkeletonTracking), "clicked",
+        G_CALLBACK(SkeletonPersonTracking), (gpointer) window);
 
   g_signal_connect(G_OBJECT(ViewDatabase), "clicked",
         G_CALLBACK(ViewPersonDatabase), (gpointer) window);
