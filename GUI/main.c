@@ -4,8 +4,9 @@
 #include <gtk/gtk.h>
 
   //Global Declaration
-  GtkWidget *entry;
 
+  //Format
+  //GtkWidget *entry;
   GtkWidget *entry1;
   GtkWidget *entry2;
   GtkWidget *entry3;
@@ -13,8 +14,7 @@
   GtkWidget *entry5;
   GtkWidget *entry6;
 
-  GtkWidget *label;
-
+  //GtkWidget *label;
   GtkWidget *label1;
   GtkWidget *label2;
   GtkWidget *label3;
@@ -46,10 +46,18 @@ void save_event(GtkWidget *widget, gpointer data)
     //const char *text = gtk_entry_get_text(GTK_ENTRY(entry));
     const char *text1 = gtk_entry_get_text(GTK_ENTRY(entry1));
     const char *text2 = gtk_entry_get_text(GTK_ENTRY(entry2));
+    const char *text3 = gtk_entry_get_text(GTK_ENTRY(entry3));
+    const char *text4 = gtk_entry_get_text(GTK_ENTRY(entry4));
+    const char *text5 = gtk_entry_get_text(GTK_ENTRY(entry5));
+    const char *text6 = gtk_entry_get_text(GTK_ENTRY(entry6));
 
-    printf("%s\n", text1);
-    printf("%s\n", text2);
 
+    printf("First Name: %s\n", text1);
+    printf("Last Name: %s\n", text2);
+    printf("Age: %s\n", text3);
+    printf("Sex: %s\n", text4);
+    printf("Weight (in kg):%s\n", text5);
+    printf("Height (in cm): %s\n", text6);
 }
 
 void EnterPersonDetails(GtkWidget *widget, gpointer window)
@@ -70,8 +78,8 @@ void EnterPersonDetails(GtkWidget *widget, gpointer window)
   label2 = gtk_label_new("Last Name :");
   label3 = gtk_label_new("Age :");
   label4 = gtk_label_new("Sex :");
-  label5 = gtk_label_new("Weight :");
-  label6 = gtk_label_new("Height :");
+  label5 = gtk_label_new("Weight (in kg):");
+  label6 = gtk_label_new("Height (in cm):");
 
   //Format
   //entry = gtk_entry_new();
