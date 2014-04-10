@@ -36,8 +36,6 @@
 void cancel_event(GtkWidget *widget, gpointer data)
 {
     main();
-    gtk_main_quit();
-
 
 }
 
@@ -63,8 +61,6 @@ void save_event(GtkWidget *widget, gpointer data)
     printf("Weight (in kg):%s\n", text5);
     printf("Height (in m): %s\n", text6);
     printf("Body Mass Index (BMI): %f\n\n",bmi);
-
-
 }
 
 void EnterPersonDetails(GtkWidget *widget, gpointer window)
@@ -140,11 +136,60 @@ void AnalyzePersonGait(GtkWidget *widget, gpointer window)
 //OpenNI - User Tracker Code
 void SkeletonPersonTracking(GtkWidget *widget, gpointer window)
 {
-    const char *path = "/home/kartik/Desktop/FinalYearProject/KINECT/OpenNI-master/Platform/Linux/Bin/x86-Release/Sample-NiUserTracker" ;
-    const char *command = "./Sample-NiUserTracker" ;
+    system("gnome-terminal --working-directory=/home/kartik/Desktop/FinalYearProject/KINECT/OpenNI-master/Platform/Linux/Bin/x86-Release/ -x sh -c './Sample-NiUserTracker; exec bash'");
+}
 
-    system("gnome-terminal --working-directory=/home/kartik/Desktop/FinalYearProject/KINECT/OpenNI-master/Platform/Linux/Bin/x86-Release/ && ./Sample-NiUserTracker");
-    //Run ./Sample-NiUserTracker
+//Hip & Knee Angles
+void HipPersonAngle(GtkWidget *widget, gpointer window)
+{
+    //Hip Angle
+    system("gnome-terminal --working-directory=/home/kartik/ -x sh -c 'gnuplot ; plot './Desktop/gnuplot_testdata.txt' using 1:2 with lines exec bash'");
+}
+void KneePersonAngle(GtkWidget *widget, gpointer window)
+{
+    //Knee Angle
+}
+
+void ElbowPersonAngle(GtkWidget *widget, gpointer window)
+{
+    //Knee Angle
+}
+
+void GraphicalPersonAnalysis(GtkWidget *widget, gpointer window)
+{
+    //Graphical Analysis
+    GtkWidget *HipAngle;
+    GtkWidget *KneeAngle;
+    GtkWidget *ElbowAngle;
+
+    window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_title(GTK_WINDOW(window), "Graphical Analysis");
+    gtk_window_set_default_size(GTK_WINDOW(window), 450, 400);
+    gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
+    gtk_container_set_border_width(GTK_CONTAINER(window), 5);
+    gtk_widget_show(window);
+
+    vbox = gtk_vbox_new(TRUE, 1);
+    gtk_container_add(GTK_CONTAINER(window), vbox);
+
+    HipAngle = gtk_button_new_with_label("Hip Angle vs % Gait Cycle");
+    KneeAngle = gtk_button_new_with_label("Knee Angle vs % Gait Cycle");
+    ElbowAngle = gtk_button_new_with_label("Elbow Angle vs % Gait Cycle");
+
+    gtk_box_pack_start(GTK_BOX(vbox), HipAngle, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(vbox), KneeAngle, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(vbox), ElbowAngle, TRUE, TRUE, 0);
+
+    g_signal_connect(G_OBJECT(HipAngle), "clicked",
+        G_CALLBACK(HipPersonAngle), (gpointer) window);
+
+    g_signal_connect(G_OBJECT(KneeAngle), "clicked",
+        G_CALLBACK(KneePersonAngle), (gpointer) window);
+
+    g_signal_connect(G_OBJECT(ElbowAngle), "clicked",
+        G_CALLBACK(ElbowPersonAngle), (gpointer) window);
+
+    gtk_widget_show_all(window);
 }
 
 
@@ -153,13 +198,13 @@ void ViewPersonDatabase(GtkWidget *widget, gpointer window)
 
     if( (stream = fopen( "/home/kartik/Desktop/FinalYearProject/KINECT/Skeleton_NEW/bin/Debug/output.txt", "r" )) == NULL )
       printf( "The Database has not been opened\n\n" );
-   else
-      {
+
+    else
+    {
           printf( "The Database has been opened\n\n" );
           system("gedit /home/kartik/Desktop/FinalYearProject/KINECT/Skeleton_NEW/bin/Debug/output.txt");
           fclose(stream);
-
-      }
+    }
 }
 
 void AboutTheProject(GtkWidget *widget, gpointer window)
@@ -172,7 +217,7 @@ void AboutTheProject(GtkWidget *widget, gpointer window)
       "\nGuide : Dr.A.Srinivas \n\n Amith Sreedhar\n Kartik Kannapur\n Lingaraju E V");
 
   gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(dialog),
-     "Development of an ATOM based Embedded System for Gait Analysis using a Kinect Camera.");
+     "Development of an Embedded System for Gait Analysis using a Kinect Camera.");
   gtk_dialog_run(GTK_DIALOG (dialog));
   gtk_widget_destroy(dialog);
 }
@@ -184,6 +229,7 @@ int main( int argc, char *argv[])
   GtkWidget *GetParameters;
   GtkWidget *AnalyzeGait;
   GtkWidget *SkeletonTracking;
+  GtkWidget *GraphicalAnalysis;
   GtkWidget *ViewDatabase;
   GtkWidget *AboutProject;
   GtkWidget *Quit;
@@ -204,6 +250,7 @@ int main( int argc, char *argv[])
   GetParameters = gtk_button_new_with_label("Get Parameters");
   AnalyzeGait = gtk_button_new_with_label("Analyze Gait");
   SkeletonTracking = gtk_button_new_with_label("Skeleton Tracking");
+  GraphicalAnalysis = gtk_button_new_with_label("Graphical Analysis");
   ViewDatabase = gtk_button_new_with_label("View Database");
   AboutProject = gtk_button_new_with_label("About the Project");
   Quit = gtk_button_new_with_label("Quit");
@@ -213,6 +260,7 @@ int main( int argc, char *argv[])
   gtk_box_pack_start(GTK_BOX(vbox), GetParameters, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), AnalyzeGait, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), SkeletonTracking, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), GraphicalAnalysis, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), ViewDatabase, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), AboutProject, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), Quit, TRUE, TRUE, 0);
@@ -228,6 +276,9 @@ int main( int argc, char *argv[])
 
   g_signal_connect(G_OBJECT(SkeletonTracking), "clicked",
         G_CALLBACK(SkeletonPersonTracking), (gpointer) window);
+
+  g_signal_connect(G_OBJECT(GraphicalAnalysis), "clicked",
+        G_CALLBACK(GraphicalPersonAnalysis), (gpointer) window);
 
   g_signal_connect(G_OBJECT(ViewDatabase), "clicked",
         G_CALLBACK(ViewPersonDatabase), (gpointer) window);
