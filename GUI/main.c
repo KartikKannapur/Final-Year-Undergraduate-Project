@@ -139,17 +139,19 @@ void SkeletonPersonTracking(GtkWidget *widget, gpointer window)
     system("gnome-terminal --working-directory=/home/kartik/Desktop/FinalYearProject/KINECT/OpenNI-master/Platform/Linux/Bin/x86-Release/ -x sh -c './Sample-NiUserTracker; exec bash'");
 }
 
-//Hip & Knee Angles
+//Hip, Knee & Elbow Angles
 void HipPersonAngle(GtkWidget *widget, gpointer window)
 {
     //Hip Angle
-    system("gnome-terminal --working-directory=/home/kartik/ -x sh -c 'gnuplot ; plot './Desktop/gnuplot_testdata.txt' using 1:2 with lines exec bash'");
+
+    //Testing
+    //system("gnome-terminal --working-directory=/home/kartik/Desktop/ -x sh -c 'gnuplot -persist test_gnuplot.sh; exec bash'");
+    system("gnome-terminal --working-directory=/home/kartik/Desktop/ -x sh -c 'gnuplot -persist test_gnuplot.sh; exec bash'");
 }
 void KneePersonAngle(GtkWidget *widget, gpointer window)
 {
     //Knee Angle
 }
-
 void ElbowPersonAngle(GtkWidget *widget, gpointer window)
 {
     //Knee Angle
