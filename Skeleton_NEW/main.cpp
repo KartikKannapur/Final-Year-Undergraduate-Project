@@ -27,6 +27,9 @@
 #include <stdlib.h>
 #include <time.h>
 #include <sys/time.h>
+#include <math.h>
+
+#define pi 3.1416
 //---------------------------------------------------------------------------
 // Defines
 //---------------------------------------------------------------------------
@@ -47,6 +50,71 @@ XnChar g_strPose[20] = "";
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
+void calc_ang(int m, int n, int o,int param_local[14][3][1000],int gait_cycle_local[5])
+{
+        int a1,a2,b1,b2,c1,c2;
+        float ang;
+        int i,j;
+        for(i=1; i<4;i++)
+        {
+            printf("\n cycle %d\n", i);
+            for(j=gait_cycle_local[i];j<gait_cycle_local[i+1];j++)
+            {
+               a1 = param_local[m][0][j]- param_local[n][0][j];
+               b1 = param_local[m][1][j]- param_local[n][1][j];
+               c1 = (param_local[m][2][j]- param_local[n][2][j])/10;
+
+               a2 = param_local[o][0][j]- param_local[n][0][j];
+               b2 = param_local[o][1][j]- param_local[n][1][j];
+               c2 = (param_local[o][2][j]- param_local[n][2][j])/10;
+
+                float c, d, e;
+                 c= (abs(a1)*abs(a1))+(abs(b1)*abs(b1))+(abs(c1)*abs(c1));
+                 d= (abs(a2)*abs(a2)+(abs(b2)*abs(b2))+(abs(c2)*abs(c2)));
+                 e= (a1*a2+b1*b2+c1*c2);
+
+                 ang= e/(sqrt(c*d));
+
+            //   ang = ((a1*a2+b1*b2+c1*c2)/(((abs(a1)^2+abs(b1)^2+abs(c1)^2)*(abs(a2)^2+abs(b2)^2+abs(c2)^2))));
+          //     printf(" %d %d %d %d %d %d\n", a1, b1 ,c1, a2, b2, c2);
+           //  printf(" this %f %f %f %f this\n" , c ,d ,e ,ang);
+               ang = acos(ang);
+
+               ang = (ang*180)/pi;
+
+               printf ("%f degrees\n", ang);
+
+            }
+        }
+}
+
+
+int get_step_len(int param_local[14][3][1000],int h,int gait_cycle_L[5],int gait_cycle_R[5])
+{
+    int step_length=0;
+    if(h==13)
+    {
+        for(int i=1;i<4;i++) // ignoring the last gait cycle just to make 3 cycles a common factor everywhere
+        {
+
+        step_length += (param_local[13][2][gait_cycle_L[i+1]])- (param_local[12][2][gait_cycle_R[i]]);
+        }
+
+        step_length = step_length/3;
+    }
+    else
+    {
+        for(int i=1;i<4;i++)
+        {
+            step_length += (param_local[12][2][gait_cycle_R[i]])- (param_local[13][2][gait_cycle_L[i]]);
+        }
+        step_length = step_length/3;
+    }
+
+    return step_length;
+}
+
+
 
 int param_stride_len(int param_local[14][3][1000],int prm_num,int gait_cycle[5])
 {
@@ -71,7 +139,7 @@ float param_stride_time(int t_local[5])
     float stride_time=0;
     for (int i=1;i<5;i++)
     {
-        stride_time+=t_local[i];
+        stride_time+=(float)t_local[i];
     }
     return stride_time/(4*1000);
 }
@@ -511,7 +579,6 @@ int main()
     // serial_port.unsetf( std::ios_base::skipws ) ;
     //
     // Keep reading data from serial port and print it to the screen.
-    gettimeofday(&start, NULL);
 
 
 
@@ -539,11 +606,13 @@ int main()
         {
             gait_cycle_R[z]=k;
             right_flag=1;
-            gait_time_R_temp[z]= ( (stop.tv_sec-start.tv_sec)*1000)+(stop.tv_usec-start.tv_usec)/1000;
+            printf("%d %f\n",  ((stop.tv_sec-start.tv_sec)*1000)+(stop.tv_usec-start.tv_usec)/1000,  ((stop.tv_sec-start.tv_sec)*1000)+(stop.tv_usec-start.tv_usec)/1000);
+            gait_time_R_temp[z]= ((stop.tv_sec-start.tv_sec)*1000)+(stop.tv_usec-start.tv_usec)/1000;
             gettimeofday(&start, NULL);
         }
-        else
+        else if(!(next_byte=='1' || next_byte=='2'))
         {
+            printf("Wrong value received from arduino\n");
             return 1;
         }
 
@@ -554,6 +623,17 @@ int main()
             left_flag=0;
         }
 
+
+        printf("Gait_time_L_temp is \n");
+        for(int ijk=0;ijk<5;ijk++)
+        {
+              printf("%d\n", gait_time_L_temp[ijk]);
+        }
+          printf("Gait_time_R_temp is \n");
+          for(int ijk=0;ijk<5;ijk++)
+          {
+              printf("%d\n", gait_time_R_temp[ijk]);
+          }
 
   }
 
@@ -567,6 +647,17 @@ int main()
           {
               gait_time_L[i+1]=gait_time_L_temp[i+1]+gait_time_R_temp[i];
               gait_time_R[i+1]=gait_time_R_temp[i+1]+gait_time_L_temp[i+1];
+          }
+
+          printf("Gait_time_L is \n");
+          for(int ij=0;ij<5;ij++)
+          {
+              printf("%d\n", gait_time_L[ij]);
+          }
+          printf("Gait_time_R is \n");
+          for(int ij=0;ij<5;ij++)
+          {
+              printf("%d\n", gait_time_R[ij]);
           }
             printf("test\n");
             g_scriptNode.Release();
@@ -599,13 +690,15 @@ int main()
     stride_len_L = param_stride_len(param,12, gait_cycle_L);
     stride_len_R = param_stride_len(param,13, gait_cycle_R);
 
-    printf("Left stride length is %d\n", stride_len_L);
-    printf("Right stride length is %d\n", stride_len_R);
+    printf("Left stride length is %d in cm\n", stride_len_L/10);
+    printf("Right stride length is %d in cm\n", stride_len_R/10);
 
     //To calculate stride_time
 
     float stride_time_L= param_stride_time(gait_time_L);
     float stride_time_R= param_stride_time(gait_time_R);
+
+
     printf("The left stride time is %f in seconds\n", stride_time_L);
     printf("The right stride time is %f in seconds\n", stride_time_R);
 
@@ -614,17 +707,46 @@ int main()
     int stride_freq_L=0;
     int stride_freq_R=0;
 
-    stride_freq_L = (3*60*1000)/(gait_time_L[4]-gait_time_L[1]);
-    stride_freq_R = (3*60*1000)/(gait_time_R[4]-gait_time_R[1]);
+    stride_freq_L = (3*60*1000)/(gait_time_L[4]+gait_time_L[3]+gait_time_L[2]);
+    stride_freq_R = (3*60*1000)/(gait_time_R[4]+gait_time_R[3]+gait_time_R[2]);
 
 
-    printf("The left stride frequency is %d steps per min", stride_freq_L );
-    printf("The right stride frequency is %d steps per min", stride_freq_R );
+    printf("The left stride frequency is %d steps per min\n", stride_freq_L );
+    printf("The right stride frequency is %d steps per min\n", stride_freq_R );
 
     //To calculate step_len
 
     int step_len_LR=0;
     int step_len_RL=0;
+
+    step_len_LR = abs(get_step_len(param, 12, gait_cycle_L, gait_cycle_R));
+    step_len_RL = abs(get_step_len(param, 13, gait_cycle_L, gait_cycle_R));
+
+    printf ("The L-R step length is %d in cm\n", step_len_LR/10 );
+    printf ("The R-L step length is %d in cm\n", step_len_RL/10 );
+
+
+    //To calculate angles
+
+
+    // 1.Elbow angles left - 2,3,6 right- 4,5,7
+    printf ("The left elbow angles are\n");
+    calc_ang(1,2,5,param,gait_cycle_L);
+    printf ("The right elbow angles are\n");
+    calc_ang(3,4,6,param,gait_cycle_R);
+
+
+    // 2.Hip angles left- 2,9,12 right- 4,8,11
+    printf("The left hip angles are\n");
+    calc_ang(1,8,11,param,gait_cycle_L);
+    printf ("The right hip angles are\n");
+    calc_ang(3,7,10,param, gait_cycle_R);
+
+    // 3.Knee angles left-9,12,14 right- 8,11,13
+    printf("The left knee angles are\n");
+    calc_ang(8,11,13,param,gait_cycle_L);
+    printf ("The right knee angles are\n");
+    calc_ang(7,10,12,param, gait_cycle_R);
 
 
 
