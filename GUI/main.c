@@ -128,9 +128,47 @@ void GetPersonParameters(GtkWidget *widget, gpointer window)
   //Run Arduino & Kinect Code
 }
 
+void LearnPersonSVM(GtkWidget *widget, gpointer window)
+{
+    //Learn SVM
+    system("gnome-terminal --working-directory=/home/kartik/Desktop/FinalYearProject/KINECT/svm_light/ -x sh -c './svm_learn example1/train.dat example1/model; exec bash'");
+}
+
+void ClassifyPersonSVM(GtkWidget *widget, gpointer window)
+{
+    //Classify SVM
+    system("gnome-terminal --working-directory=/home/kartik/Desktop/FinalYearProject/KINECT/svm_light/ -x sh -c './svm_classify example1/test.dat example1/model example1/predictions; exec bash'");
+}
+
 void AnalyzePersonGait(GtkWidget *widget, gpointer window)
 {
     //SVM
+    GtkWidget *Learn;
+    GtkWidget *Classify;
+
+    window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_title(GTK_WINDOW(window), "Analyze Gait - Support Vector Machine");
+    gtk_window_set_default_size(GTK_WINDOW(window), 450, 400);
+    gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
+    gtk_container_set_border_width(GTK_CONTAINER(window), 5);
+    gtk_widget_show(window);
+
+    vbox = gtk_vbox_new(TRUE, 1);
+    gtk_container_add(GTK_CONTAINER(window), vbox);
+
+    Learn = gtk_button_new_with_label("Learn");
+    Classify = gtk_button_new_with_label("Classify");
+
+    gtk_box_pack_start(GTK_BOX(vbox), Learn, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(vbox), Classify, TRUE, TRUE, 0);
+
+    g_signal_connect(G_OBJECT(Learn), "clicked",
+        G_CALLBACK(LearnPersonSVM), (gpointer) window);
+
+    g_signal_connect(G_OBJECT(Classify), "clicked",
+        G_CALLBACK(ClassifyPersonSVM), (gpointer) window);
+
+    gtk_widget_show_all(window);
 }
 
 //OpenNI - User Tracker Code
@@ -250,9 +288,9 @@ int main( int argc, char *argv[])
 
   EnterDetails = gtk_button_new_with_label("Enter Details");
   GetParameters = gtk_button_new_with_label("Get Parameters");
-  AnalyzeGait = gtk_button_new_with_label("Analyze Gait");
   SkeletonTracking = gtk_button_new_with_label("Skeleton Tracking");
   GraphicalAnalysis = gtk_button_new_with_label("Graphical Analysis");
+  AnalyzeGait = gtk_button_new_with_label("Analyze Gait");
   ViewDatabase = gtk_button_new_with_label("View Database");
   AboutProject = gtk_button_new_with_label("About the Project");
   Quit = gtk_button_new_with_label("Quit");
@@ -260,9 +298,9 @@ int main( int argc, char *argv[])
 
   gtk_box_pack_start(GTK_BOX(vbox), EnterDetails, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), GetParameters, TRUE, TRUE, 0);
-  gtk_box_pack_start(GTK_BOX(vbox), AnalyzeGait, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), SkeletonTracking, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), GraphicalAnalysis, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), AnalyzeGait, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), ViewDatabase, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), AboutProject, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), Quit, TRUE, TRUE, 0);
@@ -273,8 +311,6 @@ int main( int argc, char *argv[])
   g_signal_connect(G_OBJECT(GetParameters), "clicked",
         G_CALLBACK(GetPersonParameters), (gpointer) window);
 
-  g_signal_connect(G_OBJECT(AnalyzeGait), "clicked",
-        G_CALLBACK(AnalyzePersonGait), (gpointer) window);
 
   g_signal_connect(G_OBJECT(SkeletonTracking), "clicked",
         G_CALLBACK(SkeletonPersonTracking), (gpointer) window);
@@ -284,6 +320,9 @@ int main( int argc, char *argv[])
 
   g_signal_connect(G_OBJECT(ViewDatabase), "clicked",
         G_CALLBACK(ViewPersonDatabase), (gpointer) window);
+
+  g_signal_connect(G_OBJECT(AnalyzeGait), "clicked",
+        G_CALLBACK(AnalyzePersonGait), (gpointer) window);
 
   g_signal_connect(G_OBJECT(AboutProject), "clicked",
         G_CALLBACK(AboutTheProject), (gpointer) window);
