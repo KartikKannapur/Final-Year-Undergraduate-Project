@@ -181,18 +181,17 @@ void SkeletonPersonTracking(GtkWidget *widget, gpointer window)
 void HipPersonAngle(GtkWidget *widget, gpointer window)
 {
     //Hip Angle
-
-    //Testing
-    //system("gnome-terminal --working-directory=/home/kartik/Desktop/ -x sh -c 'gnuplot -persist test_gnuplot.sh; exec bash'");
-    system("gnome-terminal --working-directory=/home/kartik/Desktop/ -x sh -c 'gnuplot -persist test_gnuplot.sh; exec bash'");
+    system("gnome-terminal --working-directory=/home/kartik/Desktop/GraphicalAnalysis -x sh -c 'gnuplot -persist hip_gnuplot.sh; exec bash'");
 }
 void KneePersonAngle(GtkWidget *widget, gpointer window)
 {
     //Knee Angle
+    system("gnome-terminal --working-directory=/home/kartik/Desktop/GraphicalAnalysis -x sh -c 'gnuplot -persist knee_gnuplot.sh; exec bash'");
 }
 void ElbowPersonAngle(GtkWidget *widget, gpointer window)
 {
-    //Knee Angle
+    //Elbow Angle
+    system("gnome-terminal --working-directory=/home/kartik/Desktop/GraphicalAnalysis -x sh -c 'gnuplot -persist elbow_gnuplot.sh; exec bash'");
 }
 
 void GraphicalPersonAnalysis(GtkWidget *widget, gpointer window)
