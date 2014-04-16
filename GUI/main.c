@@ -177,29 +177,52 @@ void SkeletonPersonTracking(GtkWidget *widget, gpointer window)
     system("gnome-terminal --working-directory=/home/kartik/Desktop/FinalYearProject/KINECT/OpenNI-master/Platform/Linux/Bin/x86-Release/ -x sh -c './Sample-NiUserTracker; exec bash'");
 }
 
+
 //Hip, Knee & Elbow Angles
-void HipPersonAngle(GtkWidget *widget, gpointer window)
+void HipPersonAngleRight(GtkWidget *widget, gpointer window)
 {
     //Hip Angle
-    system("gnome-terminal --working-directory=/home/kartik/Desktop/GraphicalAnalysis -x sh -c 'gnuplot -persist hip_gnuplot.sh; exec bash'");
+    system("gnome-terminal --working-directory=/home/kartik/Desktop/GraphicalAnalysis -x sh -c 'gnuplot -persist hip_right_gnuplot.sh; exec bash'");
 }
-void KneePersonAngle(GtkWidget *widget, gpointer window)
+void HipPersonAngleLeft(GtkWidget *widget, gpointer window)
+{
+    //Hip Angle
+    system("gnome-terminal --working-directory=/home/kartik/Desktop/GraphicalAnalysis -x sh -c 'gnuplot -persist hip_left_gnuplot.sh; exec bash'");
+}
+//----------//
+void KneePersonAngleRight(GtkWidget *widget, gpointer window)
 {
     //Knee Angle
-    system("gnome-terminal --working-directory=/home/kartik/Desktop/GraphicalAnalysis -x sh -c 'gnuplot -persist knee_gnuplot.sh; exec bash'");
+    system("gnome-terminal --working-directory=/home/kartik/Desktop/GraphicalAnalysis -x sh -c 'gnuplot -persist knee_right_gnuplot.sh; exec bash'");
 }
-void ElbowPersonAngle(GtkWidget *widget, gpointer window)
+void KneePersonAngleLeft(GtkWidget *widget, gpointer window)
+{
+    //Knee Angle
+    system("gnome-terminal --working-directory=/home/kartik/Desktop/GraphicalAnalysis -x sh -c 'gnuplot -persist knee_left_gnuplot.sh; exec bash'");
+}
+//----------//
+void ElbowPersonAngleRight(GtkWidget *widget, gpointer window)
 {
     //Elbow Angle
-    system("gnome-terminal --working-directory=/home/kartik/Desktop/GraphicalAnalysis -x sh -c 'gnuplot -persist elbow_gnuplot.sh; exec bash'");
+    system("gnome-terminal --working-directory=/home/kartik/Desktop/GraphicalAnalysis -x sh -c 'gnuplot -persist elbow_right_gnuplot.sh; exec bash'");
+}
+void ElbowPersonAngleLeft(GtkWidget *widget, gpointer window)
+{
+    //Elbow Angle
+    system("gnome-terminal --working-directory=/home/kartik/Desktop/GraphicalAnalysis -x sh -c 'gnuplot -persist elbow_left_gnuplot.sh; exec bash'");
 }
 
 void GraphicalPersonAnalysis(GtkWidget *widget, gpointer window)
 {
     //Graphical Analysis
-    GtkWidget *HipAngle;
-    GtkWidget *KneeAngle;
-    GtkWidget *ElbowAngle;
+    GtkWidget *HipAngleRight;
+    GtkWidget *HipAngleLeft;
+
+    GtkWidget *KneeAngleRight;
+    GtkWidget *KneeAngleLeft;
+
+    GtkWidget *ElbowAngleRight;
+    GtkWidget *ElbowAngleLeft;
 
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(window), "Graphical Analysis");
@@ -211,22 +234,39 @@ void GraphicalPersonAnalysis(GtkWidget *widget, gpointer window)
     vbox = gtk_vbox_new(TRUE, 1);
     gtk_container_add(GTK_CONTAINER(window), vbox);
 
-    HipAngle = gtk_button_new_with_label("Hip Angle vs % Gait Cycle");
-    KneeAngle = gtk_button_new_with_label("Knee Angle vs % Gait Cycle");
-    ElbowAngle = gtk_button_new_with_label("Elbow Angle vs % Gait Cycle");
+    HipAngleRight = gtk_button_new_with_label("Hip Angle - Right vs % Gait Cycle");
+    HipAngleLeft = gtk_button_new_with_label("Hip Angle - Left vs % Gait Cycle");
 
-    gtk_box_pack_start(GTK_BOX(vbox), HipAngle, TRUE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(vbox), KneeAngle, TRUE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(vbox), ElbowAngle, TRUE, TRUE, 0);
+    KneeAngleRight = gtk_button_new_with_label("Knee Angle - Right vs % Gait Cycle");
+    KneeAngleLeft = gtk_button_new_with_label("Knee Angle - Left vs % Gait Cycle");
 
-    g_signal_connect(G_OBJECT(HipAngle), "clicked",
-        G_CALLBACK(HipPersonAngle), (gpointer) window);
+    ElbowAngleRight = gtk_button_new_with_label("Elbow Angle - Right vs % Gait Cycle");
+    ElbowAngleLeft = gtk_button_new_with_label("Elbow Angle - Left vs % Gait Cycle");
 
-    g_signal_connect(G_OBJECT(KneeAngle), "clicked",
-        G_CALLBACK(KneePersonAngle), (gpointer) window);
+    gtk_box_pack_start(GTK_BOX(vbox), HipAngleRight, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(vbox), HipAngleLeft, TRUE, TRUE, 0);
 
-    g_signal_connect(G_OBJECT(ElbowAngle), "clicked",
-        G_CALLBACK(ElbowPersonAngle), (gpointer) window);
+    gtk_box_pack_start(GTK_BOX(vbox), KneeAngleRight, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(vbox), KneeAngleLeft, TRUE, TRUE, 0);
+
+    gtk_box_pack_start(GTK_BOX(vbox), ElbowAngleRight, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(vbox), ElbowAngleLeft, TRUE, TRUE, 0);
+
+    g_signal_connect(G_OBJECT(HipAngleRight), "clicked",
+        G_CALLBACK(HipPersonAngleRight), (gpointer) window);
+    g_signal_connect(G_OBJECT(HipAngleLeft), "clicked",
+        G_CALLBACK(HipPersonAngleLeft), (gpointer) window);
+
+    g_signal_connect(G_OBJECT(KneeAngleRight), "clicked",
+        G_CALLBACK(KneePersonAngleRight), (gpointer) window);
+    g_signal_connect(G_OBJECT(KneeAngleLeft), "clicked",
+        G_CALLBACK(KneePersonAngleLeft), (gpointer) window);
+
+
+    g_signal_connect(G_OBJECT(ElbowAngleRight), "clicked",
+        G_CALLBACK(ElbowPersonAngleRight), (gpointer) window);
+    g_signal_connect(G_OBJECT(ElbowAngleLeft), "clicked",
+        G_CALLBACK(ElbowPersonAngleLeft), (gpointer) window);
 
     gtk_widget_show_all(window);
 }
