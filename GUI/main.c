@@ -243,7 +243,7 @@ void GraphicalPersonAnalysis(GtkWidget *widget, gpointer window)
     ElbowAngleRight = gtk_button_new_with_label("Elbow Angle - Right vs % Gait Cycle");
     ElbowAngleLeft = gtk_button_new_with_label("Elbow Angle - Left vs % Gait Cycle");
 
-    gtk_box_pack_start(GTK_BOX(vbox), HipAngleRight, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(vbox), HipAngleRight,TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(vbox), HipAngleLeft, TRUE, TRUE, 0);
 
     gtk_box_pack_start(GTK_BOX(vbox), KneeAngleRight, TRUE, TRUE, 0);
