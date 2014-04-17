@@ -33,6 +33,7 @@
   //Open the Database file - View Database
   FILE *stream;
 
+
 void cancel_event(GtkWidget *widget, gpointer data)
 {
     main();
@@ -126,6 +127,9 @@ void EnterPersonDetails(GtkWidget *widget, gpointer window)
 void GetPersonParameters(GtkWidget *widget, gpointer window)
 {
   //Run Arduino & Kinect Code
+
+  //TESTING
+  //system("gnome-terminal --working-directory=/home/kartik/Desktop/GraphicalAnalysis -x sh -c 'mkdir -p hello; exec bash'");
 }
 
 void LearnPersonSVM(GtkWidget *widget, gpointer window)
