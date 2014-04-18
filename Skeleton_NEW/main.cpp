@@ -18,7 +18,6 @@
 *  limitations under the License.                                            *
 *                                                                            *
 *****************************************************************************/
-
 //---------------------------------------------------------------------------
 // Includes
 //---------------------------------------------------------------------------
@@ -47,18 +46,33 @@ xn::UserGenerator g_UserGenerator;
 XnBool g_bNeedPose = FALSE;
 XnChar g_strPose[20] = "";
 
+
+FILE *stream;
+
+char buffer[1000];
+
 #define MAX_NUM_USERS 15
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-void calc_ang(int m, int n, int o,int param_local[14][3][1000],int gait_cycle_local[5])
+void calc_ang(int m, int n, int o,int param_local[14][3][1000],int gait_cycle_local[5], char file_name[7])
 {
         int a1,a2,b1,b2,c1,c2;
         float ang;
         int i,j;
-        for(i=1; i<4;i++)
+
+
+         if( ( stream = fopen( file_name, "w" ) )==NULL)
         {
-            printf("\n cycle %d\n", i);
+        printf("The file %s cannot be opened\n", file_name);
+        exit(1);
+        }
+
+        int v=0;
+
+        for(i=1;i<4;i++)
+        {
+         //   printf("\n cycle %d\n", i);
             for(j=gait_cycle_local[i];j<gait_cycle_local[i+1];j++)
             {
                a1 = param_local[m][0][j]- param_local[n][0][j];
@@ -83,10 +97,14 @@ void calc_ang(int m, int n, int o,int param_local[14][3][1000],int gait_cycle_lo
 
                ang = (ang*180)/pi;
 
-               printf ("%f degrees\n", ang);
+                fprintf(stream,"\n%d %f", v, ang);
+                v++;
+             //  printf ("%f degrees\n", ang);
 
             }
+            fprintf(stream,"\n");
         }
+        fclose(stream);
 }
 
 
@@ -731,23 +749,23 @@ int main()
 
 
     // 1.Elbow angles left - 2,3,6 right- 4,5,7
-    printf ("The left elbow angles are\n");
-    calc_ang(1,2,5,param,gait_cycle_L);
-    printf ("The right elbow angles are\n");
-    calc_ang(3,4,6,param,gait_cycle_R);
+    printf ("The left elbow angles are written to LE.dat file\n");
+    calc_ang(1,2,5,param,gait_cycle_L, "LE.dat");
+    printf ("The right elbow angles are written to RE.dat file\n");
+    calc_ang(3,4,6,param,gait_cycle_R, "RE.dat");
 
 
     // 2.Hip angles left- 2,9,12 right- 4,8,11
-    printf("The left hip angles are\n");
-    calc_ang(1,8,11,param,gait_cycle_L);
-    printf ("The right hip angles are\n");
-    calc_ang(3,7,10,param, gait_cycle_R);
+    printf("The left hip angles are written to LH.dat file\n");
+    calc_ang(1,8,11,param,gait_cycle_L, "LH.dat");
+    printf ("The right hip angles are written to RH.dat file\n");
+    calc_ang(3,7,10,param, gait_cycle_R, "RH.dat");
 
     // 3.Knee angles left-9,12,14 right- 8,11,13
-    printf("The left knee angles are\n");
-    calc_ang(8,11,13,param,gait_cycle_L);
-    printf ("The right knee angles are\n");
-    calc_ang(7,10,12,param, gait_cycle_R);
+    printf("The left knee angles are written to LK.dat file\n");
+    calc_ang(8,11,13,param,gait_cycle_L, "LK.dat");
+    printf ("The right knee angles are written to RK.dat file\n");
+    calc_ang(7,10,12,param, gait_cycle_R, "RK.dat");
 
 
 
