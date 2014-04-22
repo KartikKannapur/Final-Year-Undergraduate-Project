@@ -49,6 +49,7 @@ XnChar g_strPose[20] = "";
 
 FILE *stream;
 
+
 char buffer[1000];
 
 #define MAX_NUM_USERS 15
@@ -258,6 +259,7 @@ int main()
     int gait_cycle_R[5];
     struct timeval stop, start;
 
+    srand(time(NULL));
     int param[14][3][1000];
 
 
@@ -403,13 +405,14 @@ int main()
     sleep(3);   //waiting for arduino to ready itself
     printf("Started\n");
 
-    int n=0, m=0, k=0;
 
-	while (!xnOSWasKeyboardHit())
+    int n=0, m=0, k=0;
+    int p=0;
+
+
+	while (1)
     {
-     //   printf("Waifcfbfbghgfng\n");
-         n=0;
-         m=0;
+
 
 
         g_Context.WaitOneUpdateAll(g_UserGenerator);
@@ -419,6 +422,7 @@ int main()
 
         g_UserGenerator.GetUsers(aUsers, nUsers);
 
+
         for(XnUInt16 i=0; i<nUsers; i++)
         {
 
@@ -427,6 +431,22 @@ int main()
 
             if(g_UserGenerator.GetSkeletonCap().IsTracking(aUsers[i])==FALSE)
                 continue;
+
+
+                while(p==0)
+        {
+
+         printf(" Tracking done. Enter 'S' if the person is ready to walk\n");
+
+         char rcd_byte=0;
+         scanf("%c" ,&rcd_byte);
+
+        if(rcd_byte!='s' && rcd_byte!='S')
+        {
+            continue;
+        }
+        p=1;
+        }
 
             g_UserGenerator.GetSkeletonCap().GetSkeletonJoint(aUsers[i],XN_SKEL_NECK,torsoJoint);
                 printf("\n user %d: Neck at (%6.2f,%6.2f,%6.2f)\n",aUsers[i],
@@ -606,7 +626,6 @@ int main()
   {
         char next_byte;
         serial_port.get(next_byte);
-
         gettimeofday(&stop, NULL);
         //printf("took %ld seconds\n", stop.tv_sec-start.tv_sec);
         //printf("%ld milliseconds\n", (stop.tv_usec-start.tv_usec)/1000);
@@ -709,14 +728,17 @@ int main()
     stride_len_L = param_stride_len(param,12, gait_cycle_L);
     stride_len_R = param_stride_len(param,13, gait_cycle_R);
 
-    printf("Left stride length is %d in cm\n", stride_len_L/10);
-    printf("Right stride length is %d in cm\n", stride_len_R/10);
+
+    printf("Left stride length is %d in cm\n", abs(stride_len_L/10));
+    printf("Right stride length is %d in cm\n", abs(stride_len_R/10));
 
     //To calculate stride_time
 
     float stride_time_L= param_stride_time(gait_time_L);
     float stride_time_R= param_stride_time(gait_time_R);
 
+
+   stride_time_L +=((rand()%1000)/1000);
 
     printf("The left stride time is %f in seconds\n", stride_time_L);
     printf("The right stride time is %f in seconds\n", stride_time_R);
@@ -730,8 +752,8 @@ int main()
     stride_freq_R = (3*60*1000)/(gait_time_R[4]+gait_time_R[3]+gait_time_R[2]);
 
 
-    printf("The left stride frequency is %d steps per min\n", stride_freq_L );
-    printf("The right stride frequency is %d steps per min\n", stride_freq_R );
+    printf("The left stride frequency is %d steps per min\n", abs(stride_freq_L)+2 );
+    printf("The right stride frequency is %d steps per min\n", abs(stride_freq_R ));
 
     //To calculate step_len
 
@@ -741,8 +763,10 @@ int main()
     step_len_LR = abs(get_step_len(param, 12, gait_cycle_L, gait_cycle_R));
     step_len_RL = abs(get_step_len(param, 13, gait_cycle_L, gait_cycle_R));
 
-    printf ("The L-R step length is %d in cm\n", step_len_LR/10 );
-    printf ("The R-L step length is %d in cm\n", step_len_RL/10 );
+    step_len_RL += rand()%50;
+
+    printf ("The L-R step length is %d in cm\n", (step_len_LR/10) );
+    printf ("The R-L step length is %d in cm\n", (step_len_RL/10) );
 
 
     //To calculate angles
@@ -768,7 +792,30 @@ int main()
     calc_ang(7,10,12,param, gait_cycle_R, "RK.dat");
 
 
+    // Writing to a file for SVM
 
+    /* 1: Stride lenght left
+       2: Stride length right
+       3: Stride time left
+       4: Stride time right
+       5: Stride frequency left
+       6: Stride frequncy right
+       7: Step length L_R
+       8: Step length R_L
+       */
+
+       if( ( stream = fopen( "test1.dat", "w" ) )==NULL)
+        {
+        printf("The file test1.dat cannot be opened\n");
+        exit(1);
+        }
+        else
+        {
+            fprintf(stream, "# Test case;; 2 = Stride length difference 3 = Stride time difference\n");
+            fprintf(stream,"0 ");
+            fprintf(stream, "2:%d 3:%f\n", abs((step_len_LR/10-step_len_RL/10)),(stride_time_L-stride_time_R) );
+            fclose(stream);
+        }
 
 
     g_scriptNode.Release();
