@@ -1,0 +1,32 @@
+Project Title : Gait Analysis Using a Kinect Camera
+Amith. S   		[1PI10EC010]
+Kartik. R. Kannapur     [1PI10EC043]
+Lingaraju. E. V         [1PI10EC048]
+03/05/2014
+
+CONTENTS
+I.	INSTALLATION
+II.	GENERAL USAGE NOTES
+III.	TECHNICAL SUPPORT
+
+
+
+I. INSTALLATION
+1. This project can be built on Windows and Linux platforms like Ubuntu, Fedora etc. 
+2. Check the versions of OpenNI, NiTE, SensorKinect, Libfreenect suitable for your operating system.
+3. The installation procedure for Ubuntu 12.04, 32 bit is available in the report attached in the cd, under the Appendix.
+
+II. GENERAL USAGE NOTES
+1. Install the software required by the Kinect Camera and Arduino.
+2. Copy Skeleton_main.cpp, User_Tracker.cpp, NiSimpleViewer.cpp and the Graphical_User_Interface.c code enclosed in the CD into the CodeBlocks project and ensure all necessary files are linked.
+3. Copy the header files (extension .h) into the local CodeBlocks project folder. 
+4. Copy Arduino_Code.ino into the Arduino IDE. Save and upload the code to the Arduino board with the sensors connected to it.
+5. Compile the CodeBlocks project and run it. 
+
+III. TECHNICAL SUPPORT 
+     If you need technical assistance, you may contact
+     Email: Amith. S 		- amith171@gmail.com
+	    Kartik. R. Kannapur - kartikkannapur@gmail.com
+	    Lingaraju. E. V     - lingaraju48@gmail.com
+	   
+*********************************************************************************************************************************************
